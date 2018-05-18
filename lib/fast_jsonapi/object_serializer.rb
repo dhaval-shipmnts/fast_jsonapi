@@ -219,6 +219,9 @@ module FastJsonapi
       end
 
       def compute_serializer_name(serializer_key)
+        if serializer_key.to_s.start_with('::')
+          return (serializer_key.to_s.classify + 'Serializer').to_sym
+        end
         namespace = self.name.gsub(/()?\w+Serializer$/, '')
         serializer_name = serializer_key.to_s.classify + 'Serializer'
         return (namespace + serializer_name).to_sym if namespace.present?
